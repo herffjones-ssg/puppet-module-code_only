@@ -1,0 +1,182 @@
+#!/bin/sh
+
+# chkconfig: 345 95 10
+# description: starts the <%= @instancename %> ColdFusion server instance
+
+### BEGIN INIT INFO
+## Provides:          <%= @instancename %>
+## Required-Start:    $remote_fs $syslog $network $time
+## Required-Stop:     $remote_fs $syslog $network $time
+## Default-Start:     2 3 4 5
+## Default-Stop:      0 1 6
+## Short-Description: Start <%= @instancename %> coldfusion instance
+## Description:       Enable service provided by <%= @instancename %>.
+#### END INIT INFO
+
+#
+#------- ABOUT THIS SCRIPT -------------
+# This script allows coldfusion instances to be started on boot.
+#
+# To use:
+#  1) edit the parameters below as needed in the CUSOMTIZE HERE section
+#  2) on Linux, save to /etc/init.d/ directory, with a name of your choice
+#  3) run this command to enable it to start at apropriate run levels:
+#     #chkconfig {scriptname} on
+#     for example, chkconfig jruncfmx7multi on to enable CF on JRun to start
+#     in run levels 345 where 3 is the normal run level when X Windows isn't running
+#  4) when configured properly, ColdFusion on JRun will start at boot when entering assigned runlevel
+#  5) can use the "service" command anywhere on system to stop/start CF
+#     for example: #service jruncfmx7mult start
+#---------------------------------------
+
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH
+
+#------- CUSTOMIZE HERE ---------------
+#
+#change the following few settings as needed
+RUNTIME_USER="<%= @user -%>"
+#
+#change JRun instance name here
+#You can find this under the /opt/jrun4/servers directory
+JRUN_INSTANCE="<%= @instancename -%>"
+#
+#change the name of the config file here
+#Usually in the /opt/jrun4/bin/ directory
+JRUN_CONFIG="<%= @configfile -%>"
+#
+#change JRun root directory here
+JRUN_DIR="/opt/jrun4"
+#
+#------- END CUSTOMIZATION -----------
+
+
+ID=`id -u`
+
+if [ ! $ID -eq 0 ]; then
+	echo "You must be root to start ColdFusion."
+	exit 4
+fi
+
+
+cfstart() {
+
+
+	ps -ef | grep  "${JRUN_INSTANCE}$" | grep $JRUN_DIR > /dev/null 2>&1 && {
+		echo "ColdFusion server instance $JRUN_INSTANCE on JRun is already running"
+		echo exiting
+		exit 0
+	}
+
+
+	echo "Starting ColdFusion server instance $JRUN_INSTANCE on JRun ..."
+
+    eval $CFSTART >> $JRUN_DIR/logs/$JRUN_INSTANCE.server.log 2>&1
+
+	echo "The ColdFusion server instance $JRUN_INSTANCE on JRun is starting up and will be available shortly."
+
+	# Insert a sleep statement to give the server a few moments.
+
+	sleep 15
+
+	ps -ef | grep  "${JRUN_INSTANCE}$" | grep $JRUN_DIR  > /dev/null 2>&1 || {
+		echo "There has been an error starting ColdFusion server instance $JRUN_INSTANCE on JRun, please check the logs."
+		exit 1
+	}
+
+	echo "======================================================================"
+	echo "ColdFusion server instance $JRUN_INSTANCE on JRun has been started."
+	echo "ColdFusion server instance $JRUN_INSTANCE on JRun will write logs to $JRUN_DIR/logs/$JRUN_INSTANCE.server.log"
+	echo "======================================================================"
+
+}
+
+cfstop() {
+
+
+	ps -ef | grep  "${JRUN_INSTANCE}$" | grep $JRUN_DIR > /dev/null 2>&1 || {
+    echo "ColdFusion server instance $JRUN_INSTANCE on JRun does not seem to be currently running"
+    return 0
+	}
+
+
+	echo "Stopping ColdFusion server instance $JRUN_INSTANCE on JRun, please wait"
+
+	eval $CFSTOP &
+
+	sleep 10
+
+
+	ps -ef | grep  "${JRUN_INSTANCE}$" | grep $JRUN_DIR > /dev/null 2>&1 && {
+		echo "The ColdFusion server instance $JRUN_INSTANCE server on JRun seems to be hanging, will stop non-gracefully"
+		ps -ef | grep -w $JRUN_INSTANCE | grep -v -e init.d -e service | awk '{print $2}' | xargs kill -9 > /dev/null 2>&1
+		sleep 2
+	}
+
+
+
+	ps -ef | grep  "${JRUN_INSTANCE}$" | grep $JRUN_DIR > /dev/null 2>&1 && {
+		echo "There are some very stubborn ColdFusion server instance $JRUN_INSTANCE on JRun processes that will not die, please kill the following PIDs by hand: "
+		ps -ef | grep -w $JRUN_INSTANCE | grep -v -e init.d -e service | awk '{print $2}'
+		echo exiting
+		exit 1
+	}
+<% if instancename =~ /^murphy.*/ %>
+  echo "Removing Transfer Files"
+  /usr/bin/find /x01/www/html/murphy*<%= @instancenum %> -type f -name "*.transfer" -delete
+<% end -%>
+
+
+	echo "ColdFusion server instance $JRUN_INSTANCE on JRun has been stopped"
+}
+
+cfstat() {
+  cfpid=$(ps -ef | grep -w $JRUN_INSTANCE | grep $JRUN_DIR | grep -v -e init.d -e service | awk '{print $2}')
+
+  if [ "$cfpid" != "" ]; then
+     echo "Coldfusion server instance $JRUN_INSTANCE is running with PID $cfpid"
+     exit 0
+  else
+     echo "Coldfusion server instance $JRUN_INSTANCE doesn't appear to be running"
+     exit 3
+  fi
+}
+
+CFSTART='su -s /bin/sh $RUNTIME_USER -c "export PATH=$PATH:$JRUN_DIR/bin; cd $JRUN_DIR/bin; $JRUN_DIR/bin/jrun -nohup -config $JRUN_CONFIG -start $JRUN_INSTANCE &"'
+CFSTOP='su -s /bin/sh $RUNTIME_USER -c "env -i; cd $JRUN_DIR/bin; $JRUN_DIR/bin/jrun -stop $JRUN_INSTANCE"'
+
+
+ARG=$1
+
+[ -z "$ARG" ] && ARG=usage
+
+case $ARG in
+
+  start)
+    cfstart
+    exit 0
+  ;;
+
+  stop)
+    cfstop
+    exit 0
+  ;;
+
+  restart)
+    echo "Restarting ColdFusion server instance $JRUN_INSTANCE..."
+    cfstop
+    cfstart
+    exit 0
+  ;;
+
+  status)
+    cfstat
+  ;;
+
+	*)
+		echo "Usage:$0 (start|stop|restart)"
+	;;
+
+esac
+
+
+exit 0

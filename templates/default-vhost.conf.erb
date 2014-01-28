@@ -1,0 +1,58 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+<VirtualHost <%= scope.lookupvar(@listen_ip_fact) %>:80>
+  ServerName <%= @servername %>
+  ServerAlias <%= @server_default_alias %><% if @serveraliases %><% @serveraliases.each do |serveralias| %> <%= serveralias %><% end -%><% end -%>
+
+  ServerAdmin <%= @serveradmin %>
+
+  JRunConfig Serverstore <%= scope.lookupvar('coldfusion::install::wsconfig_path') %>/<%= @instancename %>_jrunserver.store
+  JRunConfig Bootstrap 127.0.0.1:<%= @jrun_port -%>
+
+  DocumentRoot <%= @real_deploy_dir %><% if @sub_path %>/<%= @sub_path %><% end %>
+  Alias /CFIDE/ <%= scope.lookupvar('coldfusion::apps_dir') %>/<% if @parent_app %><%= @parent_app %><%= @instancenum %><% else %><%= @instancename %><% end -%>/<% if @cfide_path %><%= @cfide_path %><% else %>cfusion.ear/cfusion.war/CFIDE/<% end %>
+        <Directory <%= scope.lookupvar('coldfusion::apps_dir') %>/<%= @instancename %>/cfusion.ear/cfusion.war/CFIDE/scripts>
+               Options -Indexes FollowSymLinks MultiViews
+               AllowOverride None
+               Order allow,deny
+               allow from all
+       </Directory>
+
+  # Deny access to any java libraries via http
+  <Directory "<%= @real_deploy_dir %>/java_libs">
+            Options -Indexes FollowSymLinks MultiViews
+            AllowOverride None
+            Order deny,allow
+            Deny from all
+  </Directory>
+
+  <% if @rewrite_rules -%>
+  <Directory "<%= @real_deploy_dir %>">
+            Options -Indexes FollowSymLinks MultiViews
+            AllowOverride None
+            Order allow,deny
+            Allow from all
+
+            RewriteEngine on
+
+            #Images, css, javascript and docs, add your own extensions if needed.
+            RewriteCond %{REQUEST_URI} \.(bmp|gif|jpe?g|png|css|js|txt|pdf|doc|xls|xml|ico)$
+            RewriteRule ^(.*)$ - [NC,L]
+
+            #The ColdBox index.cfm/{path_info} rules.
+            RewriteRule ^$ index.cfm [QSA]
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule ^(.*)$ index.cfm/%{REQUEST_URI} [QSA,L]
+
+  </Directory>
+  <% end -%>
+
+  <% if @extra_apache_config -%>
+      <%= extra_apache_config.gsub(/HTTPD-PERCENT-WORKAROUND/, '%') %>
+  <% end %>
+
+  ErrorLog <%= scope.lookupvar('coldfusion::apache_log_path') %>/<%= @instancename %>_error.log
+  CustomLog <%= scope.lookupvar('coldfusion::apache_log_path') %>/<%= @instancename %>_access.log combined
+</VirtualHost>
