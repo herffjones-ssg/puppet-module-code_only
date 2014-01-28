@@ -1,0 +1,43 @@
+<Directory /opt/jrun4/servers/*/cfusion.ear/cfusion.war/CFIDE/administrator/>
+        Options -Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order deny,allow
+<% blocked_ips.each do |ip| -%>
+        deny from <%= ip %>
+<% end -%>
+<% allowed_ips.each do |ip| -%>
+        allow from <%= ip %>
+<% end -%>
+</Directory>
+
+<Directory /opt/jrun4/servers/*/cfusion.ear/cfusion.war/CFIDE/adminapi/>
+        Options -Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order deny,allow
+<% blocked_ips.each do |ip| -%>
+        deny from <%= ip %>
+<% end -%>
+<% allowed_ips.each do |ip| -%>
+        allow from <%= ip %>
+<% end -%>
+</Directory>
+
+<Location /CFIDE/administrator/>
+        Order deny,allow
+<% blocked_ips.each do |ip| -%>
+        deny from <%= ip %>
+<% end -%>
+<% allowed_ips.each do |ip| -%>
+        allow from <%= ip %>
+<% end -%>
+</Location>
+
+<Location /CFIDE/adminapi/>
+        Order deny,allow
+<% blocked_ips.each do |ip| -%>
+        deny from <%= ip %>
+<% end -%>
+<% allowed_ips.each do |ip| -%>
+        allow from <%= ip %>
+<% end -%>
+</Location>

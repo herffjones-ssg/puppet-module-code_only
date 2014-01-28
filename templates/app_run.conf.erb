@@ -1,0 +1,39 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+#
+# VM configuration
+#
+# Where to find JVM, if {java.home}/jre exists then that JVM is used
+# if not then it must be the path to the JRE itself
+java.home=/usr/local/jdk/jre
+#
+# If no java.home is specified a VM is located by looking in these places in this
+# order:
+#
+#  1) bin directory for java.dll (windows) or lib/<ARCH>/libjava.so (unix)
+#  2) ../jre
+#  3) registry (windows only)
+#  4) JAVA_HOME env var plus jre (ie $JAVA_HOME/jre)
+#
+
+# Arguments to VM
+java.args=-server -Xms<%= @java_heap -%> -Xmx<%= @java_heap -%> -XX:MaxPermSize=<%= @java_perm_size %><% @java_args.each do |java_arg| -%><% if java_arg =~ /^-.*$/ %> <%= java_arg -%><% end -%><% end -%> -Dsun.io.useCanonCaches=false -XX:+UseParallelGC -Xbatch -Djava.awt.headless=true -Dcoldfusion.rootDir={application.home}/ -Djava.security.policy={application.home}/servers/cfusion/cfusion-ear/cfusion-war/WEB-INF/cfusion/lib/coldfusion.policy -Djava.security.auth.policy={application.home}/servers/cfusion/cfusion-ear/cfusion-war/WEB-INF/cfusion/lib/neo_jaas.policy -javaagent:<%= scope.lookupvar('coldfusion::base_dir') %>/newrelic/<%= @instancename %>/newrelic.jar
+
+#
+# commas will be converted to platform specific separator and the result will be passed
+# as -Djava.ext.dirs= to the VM
+java.ext.dirs={jre.home}/lib/ext
+
+#
+# where to find shared libraries
+java.library.path={application.home}/servers/cfusion/cfusion-ear/cfusion-war/WEB-INF/cfusion/lib
+system.path.first=false
+
+#
+# set the current working directory - useful for Windows to control
+# the default search path used when loading DLLs since it comes
+# before system directory, windows directory and PATH
+java.user.dir={application.home}/../lib
+
+# JVM classpath
+java.class.path={application.home}/servers/lib,{application.home}/servers/lib,{application.home}/servers/cfusion/cfusion-ear/cfusion-war/WEB-INF/cfusion/lib/oosdk/classes,{application.home}/servers/cfusion/cfusion-ear/cfusion-war/WEB-INF/cfusion/lib/oosdk/lib,{application.home}/lib,<%= @real_deploy_dir %>/java_libs/

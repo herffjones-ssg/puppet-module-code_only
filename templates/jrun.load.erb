@@ -1,0 +1,13 @@
+# JRun Settings
+LoadModule jrun_module <%= @wsconfig_path %>/mod_jrun22.so
+<IfModule mod_jrun22.c>
+    JRunConfig Verbose false
+    JRunConfig Apialloc false
+    JRunConfig Ignoresuffixmap false
+    #JRunConfig Errorurl url <optionally redirect to this URL on errors>
+    #JRunConfig ProxyRetryInterval 600 <number of seconds to wait before trying to reconnect to unreachable clustered server>
+    #JRunConfig ConnectTimeout 15 <number of seconds to wait on a socket connect to a jrun server>
+    #JRunConfig RecvTimeout 300 <number of seconds to wait on a socket receive to a jrun server>
+    #JRunConfig SendTimeout 15 <number of seconds to wait on a socket send to a jrun server>
+    AddHandler jrun-handler .jsp .jws .cfm .cfml .cfc .cfr .cfswf
+</IfModule>

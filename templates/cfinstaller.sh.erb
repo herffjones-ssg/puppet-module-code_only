@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get the working directory
+cwd=$(dirname $0)
+cd $cwd
+
+running=$(ps axu | grep com.zerog.lax.LAX | grep -v grep | awk '{print $2}')
+
+for pid in $running; do kill -9 $pid; done
+
+# Run the installer
+${cwd}/ColdFusion_9_WWE_linux64.bin
+[ $? -ne 0 ] && echo "Installation Failed" && exit 1
+
+# Change the owner of the coldfusion directory
+/bin/chown -R <%= scope.lookupvar('coldfusion::user') -%>:<%= scope.lookupvar('coldfusion::user') -%> <%= scope.lookupvar('coldfusion::base_dir') -%>

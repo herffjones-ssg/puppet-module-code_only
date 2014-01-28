@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ -e <%= scope.lookupvar('coldfusion::apps_dir') %> ]; then
+  for server in $(ls <%= scope.lookupvar('coldfusion::apps_dir') %> | grep -v -e lib -e template.zip -e samples -e admin); do
+    echo "${server}_jrun_port=$(/usr/bin/xmlstarlet sel -t -v "/jrun-server/service[@class='jrun.servlet.jrpp.JRunProxyService']/attribute[@name='port']" <%= scope.lookupvar('coldfusion::apps_dir') %>/${server}/SERVER-INF/jrun.xml)"
+  done
+else
+  echo cf_apps=none
+fi
+
+echo "cf_dummy_port=0"

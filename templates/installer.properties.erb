@@ -1,0 +1,31 @@
+INSTALLER_UI=SILENT
+SILENT_LICENSE_MODE=full
+
+# Applies only if SILENT_LICENSE_MODE is full.
+SILENT_SERIAL_NUMBER=<%= @license_key %>
+
+# Serial number of the previous version of ColdFusion.
+# This is required only if the serial number you specified as the SILENT_SERIAL_NUMBER is a serial number for an upgrade.
+#SILENT_PREV_SERIAL_NUMBER=serial_number
+
+SILENT_INSTALLER_TYPE=jrun
+
+SILENT_INSTALL_FOLDER=<%= scope.lookupvar('coldfusion::base_dir') %>
+
+# Applies only for UNIX systems.
+# Runtime user, typically nobody.
+SILENT_RUNTIMEUSER=<%= scope.lookupvar('coldfusion::user') %>
+
+# Whether to turn on Flex, if you have version 2.3 or later of the JavaServlet API.
+SILENT_FLEX_ENABLED=true
+
+# Whether to enable RDS.
+# RDS allows the server to interact with remotely connected developers.
+# Adobe recommends that you disable RDS for production servers.
+# Note that Disabling RDS also disables the directory browsing applets in the ColdFusion 9 Administrator.
+SILENT_ENABLE_RDS=false
+
+SILENT_ADMIN_PASSWORD=<%= scope.lookupvar('coldfusion::decrypt_admin_pass') %>
+
+# Whether to turn on Flex, if you have version 2.3 or later of the JavaServlet API.
+SILENT_FLEX_ENABLED=true

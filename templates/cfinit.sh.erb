@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Change the owner of the coldfusion directory
+/bin/chown -R <%= scope.lookupvar('coldfusion::user') -%>:<%= scope.lookupvar('coldfusion::user') -%> <%= scope.lookupvar('coldfusion::base_dir') -%>
+
+/etc/init.d/coldfusion9multi restart
+
+sleep 60
+
+<%= scope.lookupvar('install_path') -%>/automation/cfinstance.sh -n -p <%= scope.lookupvar('coldfusion::decrypt_admin_pass') -%>

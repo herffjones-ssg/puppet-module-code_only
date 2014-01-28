@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# chkconfig: 345 90 14
+# description: starts the MultiServer cfusion instance
+
+
+if [ -f /etc/rc.common ]; then
+. /etc/rc.common
+fi
+
+#
+# Start ColdFusion 8 Multiserver 
+#
+# Because this is a start up script, and will be run by root, we use a specific 
+# user (the user who installed) to run ColdFusion
+
+CF_DIR="/opt/jrun4"
+RUNTIME_USER="nobody"
+
+# 1.0/Initial
+#
+##
+  
+if [ ${1:-noset} = "stop" ]; then
+  su $RUNTIME_USER -c "$CF_DIR/bin/jrun -stop cfusion" 
+  exit 0
+fi
+
+su $RUNTIME_USER -c "$CF_DIR/bin/jrun -start cfusion >& $CF_DIR/logs/cfusion-event.log &"

@@ -1,0 +1,628 @@
+<wddxPacket version='1.0'>
+  <header/>
+  <data>
+    <array length='2'><% if @datasources -%>
+      <struct type='coldfusion.server.ConfigMap'><% for @dsname in @datasources -%><% for @ds in @all_datasources -%><% if @ds['name'] == @dsname -%><% if @ds['type'] == 'mssql' -%>
+        <var name='<%= @ds['name'] -%>'>
+        <struct type='coldfusion.server.ConfigMap'>
+          <var name='disable_autogenkeys'>
+            <boolean value='false'/>
+          </var>
+          <var name='CLASS'>
+            <string>macromedia.jdbc.MacromediaDriver</string>
+          </var>
+          <var name='alter'>
+            <boolean value='true'/>
+          </var>
+          <var name='validationQuery'>
+            <string></string>
+          </var>
+          <var name='grant'>
+            <boolean value='true'/>
+          </var>
+          <var name='DRIVER'>
+            <string>MSSQLServer</string>
+          </var>
+          <var name='update'>
+            <boolean value='true'/>
+          </var>
+          <var name='buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='delete'>
+            <boolean value='true'/>
+          </var>
+          <var name='pooling'>
+            <boolean value='true'/>
+          </var>
+          <var name='interval'>
+            <number>420.0</number>
+          </var>
+          <var name='url'>
+            <string>jdbc:macromedia:sqlserver://<%= @ds['hostname'] %>:<%= @ds['port'] %>;databaseName=<%= @ds['dbname'] %>;SelectMethod=direct;sendStringParametersAsUnicode=false;querytimeout=0;MaxPooledStatements=100</string>
+          </var>
+          <var name='password'>
+            <string>
+              <%= @ds['cfpassword'] %>
+            </string>
+          </var>
+          <var name='TYPE'>
+            <string>ddtek</string>
+          </var>
+          <var name='disable_blob'>
+            <boolean value='true'/>
+          </var>
+          <var name='NAME'>
+            <string>
+              <%= @ds['dbname'] %>
+            </string>
+          </var>
+          <var name='create'>
+            <boolean value='true'/>
+          </var>
+          <var name='storedproc'>
+            <boolean value='true'/>
+          </var>
+          <var name='description'>
+            <string></string>
+          </var>
+          <var name='login_timeout'>
+            <number>30.0</number>
+          </var>
+          <var name='insert'>
+            <boolean value='true'/>
+          </var>
+          <var name='drop'>
+            <boolean value='true'/>
+          </var>
+          <var name='urlmap'>
+            <struct type='coldfusion.server.ConfigMap'>
+              <var name='databaseFile'>
+                <string></string>
+              </var>
+              <var name='MaxPooledStatements'>
+                <string>100</string>
+              </var>
+              <var name='isnewdb'>
+                <string>false</string>
+              </var>
+              <var name='host'>
+                <string>
+                  <%= @ds['hostname'] %>
+                </string>
+              </var>
+              <var name='port'>
+                <string>
+                  <%= @ds['port'] %>
+                </string>
+              </var>
+              <var name='pageTimeout'>
+                <string></string>
+              </var>
+              <var name='defaultpassword'>
+                <string></string>
+              </var>
+              <var name='spyLogFile'>
+                <string></string>
+              </var>
+              <var name='_logintimeout'>
+                <number>30.0</number>
+              </var>
+              <var name='selectMethod'>
+                <string>direct</string>
+              </var>
+              <var name='UseTrustedConnection'>
+                <string>false</string>
+              </var>
+              <var name='datasource'>
+                <string></string>
+              </var>
+              <var name='sendStringParametersAsUnicode'>
+                <string>false</string>
+              </var>
+              <var name='supportLinks'>
+                <string>true</string>
+              </var>
+              <var name='informixServer'>
+                <string></string>
+              </var>
+              <var name='database'>
+                <string>
+                  <%= @ds['dbname'] %>
+                </string>
+              </var>
+              <var name='maxBufferSize'>
+                <string></string>
+              </var>
+              <var name='CONNECTIONPROPS'>
+                <struct>
+                  <var name='HOST'>
+                    <string>
+                      <%= @ds['hostname'] %>
+                    </string>
+                  </var>
+                  <var name='QTIMEOUT'>
+                    <string>0</string>
+                  </var>
+                  <var name='PORT'>
+                    <string>
+                      <%= @ds['port'] %>
+                    </string>
+                  </var>
+                  <var name='MAXPOOLEDSTATEMENTS'>
+                    <string>100</string>
+                  </var>
+                  <var name='SENDSTRINGPARAMETERSASUNICODE'>
+                    <string>false</string>
+                  </var>
+                  <var name='DATABASE'>
+                    <string>
+                      <%= @ds['dbname'] %>
+                    </string>
+                  </var>
+                  <var name='SELECTMETHOD'>
+                    <string>direct</string>
+                  </var>
+                </struct>
+              </var>
+              <var name='SID'>
+                <string></string>
+              </var>
+              <var name='CF_POOLED'>
+                <string>true</string>
+              </var>
+              <var name='args'>
+                <string></string>
+              </var>
+              <var name='qTimeout'>
+                <string>0</string>
+              </var>
+              <var name='systemDatabaseFile'>
+                <string></string>
+              </var>
+              <var name='useSpyLog'>
+                <string>false</string>
+              </var>
+              <var name='TimeStampAsString'>
+                <string>no</string>
+              </var>
+              <var name='defaultname'>
+                <string></string>
+              </var>
+              <var name='_port'>
+                <number><%= @ds['port'] %>.0</number>
+              </var>
+              <var name='VENDOR'>
+                <string>sqlserver</string>
+              </var>
+            </struct>
+          </var>
+          <var name='ISJ2EE'>
+            <boolean value='false'/>
+          </var>
+          <var name='disable_clob'>
+            <boolean value='true'/>
+          </var>
+          <var name='blob_buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='revoke'>
+            <boolean value='true'/>
+          </var>
+          <var name='username'>
+            <string>
+              <%= @ds['username'] %>
+            </string>
+          </var>
+          <var name='select'>
+            <boolean value='true'/>
+          </var>
+          <var name='disable'>
+            <boolean value='false'/>
+          </var>
+          <var name='timeout'>
+            <number>1200.0</number>
+          </var>
+        </struct></var><% end -%><% if @ds['type'] == 'oracle_cf' -%>
+        <var name='<%= @ds['name'] -%>'>
+        <struct type='coldfusion.server.ConfigMap'>
+          <var name='disable_autogenkeys'>
+            <boolean value='false'/>
+          </var>
+          <var name='CLASS'>
+            <string>macromedia.jdbc.MacromediaDriver</string>
+          </var>
+          <var name='alter'>
+            <boolean value='true'/>
+          </var>
+          <var name='validationQuery'>
+            <string></string>
+          </var>
+          <var name='grant'>
+            <boolean value='true'/>
+          </var>
+          <var name='DRIVER'>
+            <string>Oracle</string>
+          </var>
+          <var name='update'>
+            <boolean value='true'/>
+          </var>
+          <var name='buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='delete'>
+            <boolean value='true'/>
+          </var>
+          <var name='pooling'>
+            <boolean value='true'/>
+          </var>
+          <var name='interval'>
+            <number>420.0</number>
+          </var>
+          <var name='url'>
+            <string>jdbc:macromedia:oracle://<%= @ds['hostname'] %>:<%= @ds['port'] %>;SID=<%= @ds['dbname'] %>;AuthenticationMethod=userIDPassword;sendStringParametersAsUnicode=false;querytimeout=0;MaxPooledStatements=100</string>
+          </var>
+          <var name='password'>
+            <string>
+              <%= @ds['cfpassword'] %>
+            </string>
+          </var>
+          <var name='TYPE'>
+            <string>ddtek</string>
+          </var>
+          <var name='disable_blob'>
+            <boolean value='true'/>
+          </var>
+          <var name='NAME'>
+            <string>
+              <%= @ds['name'] %>
+            </string>
+          </var>
+          <var name='create'>
+            <boolean value='true'/>
+          </var>
+          <var name='storedproc'>
+            <boolean value='true'/>
+          </var>
+          <var name='description'>
+            <string></string>
+          </var>
+          <var name='login_timeout'>
+            <number>30.0</number>
+          </var>
+          <var name='insert'>
+            <boolean value='true'/>
+          </var>
+          <var name='drop'>
+            <boolean value='true'/>
+          </var>
+          <var name='urlmap'>
+            <struct type='coldfusion.server.ConfigMap'>
+              <var name='databaseFile'>
+                <string></string>
+              </var>
+              <var name='MaxPooledStatements'>
+                <string>100</string>
+              </var>
+              <var name='isnewdb'>
+                <string>false</string>
+              </var>
+              <var name='host'>
+                <string>
+                  <%= @ds['hostname'] %>
+                </string>
+              </var>
+              <var name='port'>
+                <string>
+                  <%= @ds['port'] %>
+                </string>
+              </var>
+              <var name='pageTimeout'>
+                <string></string>
+              </var>
+              <var name='defaultpassword'>
+                <string></string>
+              </var>
+              <var name='spyLogFile'>
+                <string></string>
+              </var>
+              <var name='_logintimeout'>
+                <number>30.0</number>
+              </var>
+              <var name='selectMethod'>
+                <string>direct</string>
+              </var>
+              <var name='UseTrustedConnection'>
+                <string>false</string>
+              </var>
+              <var name='datasource'>
+                <string></string>
+              </var>
+              <var name='sendStringParametersAsUnicode'>
+                <string>false</string>
+              </var>
+              <var name='supportLinks'>
+                <string>true</string>
+              </var>
+              <var name='informixServer'>
+                <string></string>
+              </var>
+              <var name='database'>
+                <string></string>
+              </var>
+              <var name='defaultusername'>
+                <string></string>
+              </var>
+              <var name='maxBufferSize'>
+                <string></string>
+              </var>
+              <var name='CONNECTIONPROPS'>
+                <struct>
+                  <var name='HOST'>
+                    <string>
+                      <%= @ds['hostname'] %>
+                    </string>
+                  </var>
+                  <var name='SID'>
+                    <string>
+                      <%= @ds['dbname'] %>
+                    </string>
+                  </var>
+                  <var name='QTIMEOUT'>
+                    <string>0</string>
+                  </var>
+                  <var name='PORT'>
+                    <string>
+                      <%= @ds['port'] %>
+                    </string>
+                  </var>
+                  <var name='SENDSTRINGPARAMETERSASUNICODE'>
+                    <string>false</string>
+                  </var>
+                  <var name='MAXPOOLEDSTATEMENTS'>
+                    <string>100</string>
+                  </var>
+                </struct>
+              </var>
+              <var name='SID'>
+                <string>
+                  <%= @ds['dbname'] %>
+                </string>
+              </var>
+              <var name='args'>
+                <string></string>
+              </var>
+              <var name='qTimeout'>
+                <string>0</string>
+              </var>
+              <var name='systemDatabaseFile'>
+                <string></string>
+              </var>
+              <var name='useSpyLog'>
+                <string>false</string>
+              </var>
+              <var name='TimeStampAsString'>
+                <string>no</string>
+              </var>
+              <var name='_port'>
+                <number><%= @ds['port'] %>.0</number>
+              </var>
+              <var name='VENDOR'>
+                <string>oracle</string>
+              </var>
+            </struct>
+          </var>
+          <var name='ISJ2EE'>
+            <boolean value='false'/>
+          </var>
+          <var name='disable_clob'>
+            <boolean value='true'/>
+          </var>
+          <var name='blob_buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='revoke'>
+            <boolean value='true'/>
+          </var>
+          <var name='username'>
+            <string>
+              <%= @ds['username'] %>
+            </string>
+          </var>
+          <var name='select'>
+            <boolean value='true'/>
+          </var>
+          <var name='disable'>
+            <boolean value='false'/>
+          </var>
+          <var name='timeout'>
+            <number>1200.0</number>
+          </var>
+        </struct></var><% end -%><% if @ds['type'] == 'oracle' -%>
+        <var name='<%= @ds['name'] -%>'>
+        <struct type='coldfusion.server.ConfigMap'>
+          <var name='disable_autogenkeys'>
+            <boolean value='false'/>
+          </var>
+          <var name='CLASS'>
+            <string>oracle.jdbc.OracleDriver</string>
+          </var>
+          <var name='alter'>
+            <boolean value='true'/>
+          </var>
+          <var name='validationQuery'>
+            <string></string>
+          </var>
+          <var name='grant'>
+            <boolean value='true'/>
+          </var>
+          <var name='DRIVER'>
+            <string>Oracle JDBC Driver</string>
+          </var>
+          <var name='update'>
+            <boolean value='true'/>
+          </var>
+          <var name='buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='delete'>
+            <boolean value='true'/>
+          </var>
+          <var name='pooling'>
+            <boolean value='true'/>
+          </var>
+          <var name='interval'>
+            <number>420.0</number>
+          </var>
+          <var name='password'>
+            <string>
+              <%= @ds['cfpassword'] %>
+            </string>
+          </var>
+          <var name='url'>
+            <string>
+              <%= @ds['uri'] %>
+            </string>
+          </var>
+          <var name='disable_blob'>
+            <boolean value='true'/>
+          </var>
+          <var name='NAME'>
+            <string>
+              <%= @ds['name'] %>
+            </string>
+          </var>
+          <var name='create'>
+            <boolean value='true'/>
+          </var>
+          <var name='storedproc'>
+            <boolean value='true'/>
+          </var>
+          <var name='description'>
+            <string></string>
+          </var>
+          <var name='login_timeout'>
+            <number>30.0</number>
+          </var>
+          <var name='insert'>
+            <boolean value='true'/>
+          </var>
+          <var name='drop'>
+            <boolean value='true'/>
+          </var>
+          <var name='urlmap'>
+            <struct type='coldfusion.server.ConfigMap'>
+              <var name='databaseFile'>
+                <string></string>
+              </var>
+              <var name='MaxPooledStatements'>
+                <string>100</string>
+              </var>
+              <var name='isnewdb'>
+                <string>false</string>
+              </var>
+              <var name='host'>
+                <string></string>
+              </var>
+              <var name='port'>
+                <string></string>
+              </var>
+              <var name='pageTimeout'>
+                <string></string>
+              </var>
+              <var name='defaultpassword'>
+                <string></string>
+              </var>
+              <var name='spyLogFile'>
+                <string></string>
+              </var>
+              <var name='_logintimeout'>
+                <number>30.0</number>
+              </var>
+              <var name='selectMethod'>
+                <string>direct</string>
+              </var>
+              <var name='UseTrustedConnection'>
+                <string>false</string>
+              </var>
+              <var name='datasource'>
+                <string></string>
+              </var>
+              <var name='sendStringParametersAsUnicode'>
+                <string>false</string>
+              </var>
+              <var name='supportLinks'>
+                <string>true</string>
+              </var>
+              <var name='informixServer'>
+                <string></string>
+              </var>
+              <var name='database'>
+                <string></string>
+              </var>
+              <var name='defaultusername'>
+                <string></string>
+              </var>
+              <var name='maxBufferSize'>
+                <string></string>
+              </var>
+              <var name='CONNECTIONPROPS'>
+                <struct></struct>
+              </var>
+              <var name='SID'>
+                <string></string>
+              </var>
+              <var name='qTimeout'>
+                <string>0</string>
+              </var>
+              <var name='args'>
+                <string></string>
+              </var>
+              <var name='systemDatabaseFile'>
+                <string></string>
+              </var>
+              <var name='useSpyLog'>
+                <string>false</string>
+              </var>
+              <var name='TimeStampAsString'>
+                <string>no</string>
+              </var>
+            </struct>
+          </var>
+          <var name='ISJ2EE'>
+            <boolean value='false'/>
+          </var>
+          <var name='disable_clob'>
+            <boolean value='true'/>
+          </var>
+          <var name='blob_buffer'>
+            <number>64000.0</number>
+          </var>
+          <var name='revoke'>
+            <boolean value='true'/>
+          </var>
+          <var name='username'>
+            <string>
+              <%= @ds['username'] %>
+            </string>
+          </var>
+          <var name='select'>
+            <boolean value='true'/>
+          </var>
+          <var name='disable'>
+            <boolean value='false'/>
+          </var>
+          <var name='timeout'>
+            <number>1200.0</number>
+          </var>
+        </struct></var><% end -%><% end -%><% end -%><% end -%>
+      </struct><% else -%>
+      <struct type='coldfusion.server.ConfigMap'/><% end -%>
+      <struct type='coldfusion.server.ConfigMap'>
+        <var name='maxcachecount'>
+          <number>100.0</number>
+        </var>
+      </struct>
+    </array>
+  </data>
+</wddxPacket>
