@@ -2,29 +2,13 @@
 #
 # == Parameters:
 #
-# [*interface*]
-# Which interface the app will listen on.
-# - required
-#
-# [*console_log*]
-# Path to app's console log.
-# - default: "${instance_dir}/log/console.log"
-#
-# [*instance*]
-# Number corresponding to instance. Starts at 1 and increments.
-#
-# [*vhost_template*]
-# Path to apache vhost template in either autoloader format such as
-# 'myapp-vhost.conf.erb' or a fully qualified path such as
-# '/srv/app_templates/myapp-vhost.conf.erb'.
-# - default: 'default-vhost.conf.erb'
 #
 
 define code_only::instance (
   $deploy_dir='',
 ){
 
-  $app_name = template('coldfusion/app_name.erb')
+  $app_name = template('code_only/app_name.erb')
 
 
   # Tags everything with the appname for more specific puppet runs
